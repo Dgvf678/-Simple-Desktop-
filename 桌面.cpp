@@ -15,12 +15,12 @@
 using namespace std;
 int main()
 {
-    system("chcp 65001");
+    system("chcp 65001");//设置utf-8字符
     system("cls");
-    cout << red << 'R' << green << 'G' << yellow << 'B' << rest << endl;
-    string version = "0.3.2(开发beta版)DLL与颜色";
+    cout << red << 'R' << green << 'G' << yellow << 'B' << rest << endl;//用于展示RGB显示
+    string version = "0.3.4(开发beta版)电源更新";
     cout << "程序版本号：" << version << endl;
-    ifstream infile("user.txt");
+    ifstream infile("user.txt");//声明"infile"
     if (infile.is_open())
     {
         cout << "程序成功运行，已检测到用户文件，准备启动" << endl;
@@ -30,7 +30,7 @@ int main()
         cout << "程序成功运行，未检测到用户文件，正在尝试创建. . ." << endl;
         infile.close();
         Sleep(1000);
-        ofstream outfile("user.txt");
+        ofstream outfile("user.txt");//声明"outfile"
         if (outfile.is_open())
         {
             outfile << "admin" << endl << "123456";
@@ -121,17 +121,16 @@ int main()
         if (linee < line)
         {
             cout << "[system/Error]:致命错误！用户文件中，找不到密码！用户文件已损坏！正在删除用户文件!程序将在3秒后退出！" << endl;
-            Sleep(1500);
             if (remove("user.txt") == 0)
             {
                 cout << "删除成功，准备关闭程序！" << endl;
-                Sleep(1500);
+                Sleep(3000);
                 return -1;
             }
             else
             {
                 cout << "无法删除，请手动删除，准备关闭程序" << endl;
-                Sleep(1500);
+                Sleep(3000);
                 return -1;
             }
         }
@@ -320,8 +319,6 @@ int main()
     }
     cout << "欢迎" << endl;
     cout << "WINDO VC UI" << endl;
-    cout << endl << endl << endl << endl << endl << "Powered by" << endl;
-    cout << "Microsoft Windows" << endl;
     Sleep(5000);
     system("cls");
     string wd;
@@ -377,7 +374,79 @@ int main()
             continue;
         }
 
-        //3号和4号的功能...
+        //3号的功能...
+        if (akr == 4)
+        {
+            while(true)
+            {
+                system("cls");
+                cout << "【1】" << red << "关机" << endl << rest << "【2】" << green << "重启" << endl << rest << "请输入序号" << endl;
+                int ags;
+                char agsc;
+                cin >> ags;
+                bool b = true;//存储是否为"特殊关机" false表示是 true 表示否
+                switch (ags)
+                {
+                case 1:
+                    cout << "确定要" << red << "关机" << rest << "吗？" << endl;
+                    cout << "Tips: Y是,N否" << endl;
+                    cin >> agsc;
+                    if (agsc == 'Y' || agsc == 'y')
+                    {
+                        cout << "再见" << endl;
+                        infile.close();
+                        ifstream infile("config.txt");
+                        int line = 1, linee = 0;
+                        string a;
+                        if (infile.is_open())
+                        {
+                            while (getline(infile, a))
+                            {
+                                linee++;
+                                if (linee == line)
+                                {
+                                    break;
+                                }
+                            }
+                            if (a != "true")
+                                system("shutdown /s /t 0");
+                            else
+                                b = false;
+                        }
+                        else
+                        {
+                            system("shutdown /s /t 0");
+                        }
+                        Sleep(5000);
+                        if (b == false)
+                        {
+                            return 2;
+                        }
+                        ofstream outfile;
+                        (void)outfile.open("Crash.txt");
+                        outfile << "错误，无法关闭计算机,可能是\"shutdown\"损坏或丢失,重新安装操作系统或修复这个文件以解决";
+                        outfile.close();
+                        return 2;//为防止出现错误，使用返回
+                    }
+                    break;
+                case 2:
+                    cout << "确定要" << green << "重启" << rest << "吗？" << endl;
+                    cout << "Tips: Y是,N否" << endl;
+                    cin >> agsc;
+                    if (agsc == 'Y' || agsc == 'y')
+                    {
+                        cout << "再见" << endl;
+                        system("shutdown /r /t 0");
+                        ofstream outfile("Crash.txt");
+                        (void)outfile.is_open();
+                        outfile << "错误，无法重启计算机,可能是\"shutdown\"损坏或丢失,重新安装操作系统或修复这个文件以解决";
+                        outfile.close();
+                        return 2;//为防止出现错误，使用返回
+                        //这里和上面一样
+                    }
+                }
+            }
+        }
 
         if (akr == 5)
         {
