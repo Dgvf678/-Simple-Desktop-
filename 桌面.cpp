@@ -18,7 +18,7 @@ int main()
     system("chcp 65001");//设置utf-8字符
     system("cls");
     cout << red << 'R' << green << 'G' << yellow << 'B' << reset << endl;//用于展示RGB显示
-    string version = "0.3.42(开发beta版)电源更新";
+    string version = "0.3.4.1(开发beta版)电源更新";
     cout << "程序版本号：" << version << endl;
     ifstream infile("user.txt");//声明"infile"
     if (infile.is_open())
