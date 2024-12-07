@@ -8,7 +8,7 @@
 #include<cstdio>
 #include<cstdlib>
 #include<direct.h>
-#define rest "\033[0m"
+#define reset "\033[0m"
 #define red "\033[31m"
 #define green "\033[32m"
 #define yellow "\033[33m"
@@ -17,8 +17,8 @@ int main()
 {
     system("chcp 65001");//设置utf-8字符
     system("cls");
-    cout << red << 'R' << green << 'G' << yellow << 'B' << rest << endl;//用于展示RGB显示
-    string version = "0.3.4(开发beta版)电源更新";
+    cout << red << 'R' << green << 'G' << yellow << 'B' << reset << endl;//用于展示RGB显示
+    string version = "0.3.42(开发beta版)电源更新";
     cout << "程序版本号：" << version << endl;
     ifstream infile("user.txt");//声明"infile"
     if (infile.is_open())
@@ -312,7 +312,7 @@ int main()
         if (akr == 5)
         {
             system("cls");
-            cout << "正在启动Windo VC系统...请稍后" << endl;
+            cout << "正在启动Do UI界面...请稍后" << endl;
             Sleep(1000);
             break;
         }
@@ -380,7 +380,7 @@ int main()
             while(true)
             {
                 system("cls");
-                cout << "【1】" << red << "关机" << endl << rest << "【2】" << green << "重启" << endl << rest << "请输入序号" << endl;
+                cout << "【1】" << red << "关机" << endl << reset << "【2】" << green << "重启" << endl << reset << "【3】返回至主菜单" << "请输入序号" << endl;
                 int ags;
                 char agsc;
                 cin >> ags;
@@ -388,7 +388,7 @@ int main()
                 switch (ags)
                 {
                 case 1:
-                    cout << "确定要" << red << "关机" << rest << "吗？" << endl;
+                    cout << "确定要" << red << "关机" << reset << "吗？" << endl;
                     cout << "Tips: Y是,N否" << endl;
                     cin >> agsc;
                     if (agsc == 'Y' || agsc == 'y')
@@ -424,13 +424,13 @@ int main()
                         }
                         ofstream outfile;
                         (void)outfile.open("Crash.txt");
-                        outfile << "错误，无法关闭计算机,可能是\"shutdown\"损坏或丢失,重新安装操作系统或修复这个文件以解决";
+                        outfile << "超时  错误，无法关闭计算机,可能是\"shutdown\"损坏或丢失,重新安装操作系统或修复这个文件以解决";
                         outfile.close();
                         return 2;//为防止出现错误，使用返回
                     }
                     break;
                 case 2:
-                    cout << "确定要" << green << "重启" << rest << "吗？" << endl;
+                    cout << "确定要" << green << "重启" << reset << "吗？" << endl;
                     cout << "Tips: Y是,N否" << endl;
                     cin >> agsc;
                     if (agsc == 'Y' || agsc == 'y')
@@ -439,13 +439,29 @@ int main()
                         system("shutdown /r /t 0");
                         ofstream outfile("Crash.txt");
                         (void)outfile.is_open();
-                        outfile << "错误，无法重启计算机,可能是\"shutdown\"损坏或丢失,重新安装操作系统或修复这个文件以解决";
+                        outfile << "超时  错误，无法重启计算机,可能是\"shutdown\"损坏或丢失,重新安装操作系统或修复这个文件以解决";
                         outfile.close();
                         return 2;//为防止出现错误，使用返回
                         //这里和上面一样
                     }
+                case 3:
+                    cout << green << "返回" << reset;
+                    Sleep(1000);
+                    ags = 10086;
+                    break;
+                default:
+                    ags = 0;
+                    cout << "请重试" << endl;
+                    system("pause");
+                    break;
+                }
+                if (ags == 10086)
+                {
+                    break;
                 }
             }
+            system("pause");
+            continue;
         }
 
         if (akr == 5)
@@ -468,14 +484,14 @@ int main()
                     if (hModule == NULL)
                     {
                         cout << red << "无法加载DLL，可能文件已经损坏或不存在，错误代码：" << yellow << GetLastError() << endl;
-                        cout << rest;
+                        cout << reset;
                         system("pause");
                         system("cls");
                         continue;
                     }
                     else
                     {
-                        cout << green << "成功加载DLL！" << rest << endl;
+                        cout << green << "成功加载DLL！" << reset << endl;
                     }
                     cout << "请输入要调用的函数名：";
                     string fn;
@@ -483,20 +499,20 @@ int main()
                     MathFunc Math = (MathFunc)GetProcAddress(hModule, fn.c_str());
                     if (Math == NULL)
                     {
-                        cout << red << "找不到函数：" << rest << fn << ' ' << red << "错误代码：" << yellow << GetLastError() << rest << endl;
+                        cout << red << "找不到函数：" << reset << fn << ' ' << red << "错误代码：" << yellow << GetLastError() << reset << endl;
                         cout << "正在释放DLL..." << endl;
                         FreeLibrary(hModule);
                         continue;
                     }
                     int aa, b;
-                    cout << green << "DLL文件已全部加载完成！" << rest << "请输入两个整数：";
+                    cout << green << "DLL文件已全部加载完成！" << reset << "请输入两个整数：";
                     wcin >> aa >> b;
                     int result = Math(aa, b);
                     cout << "结果:" << result << endl;
                     FreeLibrary(hModule);
                     cout << green << "计算完成！DLL文件已释放！";
                     system("pause");
-                    cout << rest;
+                    cout << reset;
                     system("cls");
                 }
                 if (a == 372)
